@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Vacation Planner Web</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+
+  <!-- calls for the arcgis api's CSS file and JS library. -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.25/"></script>
+
+  
+  
+
+
+
+  <!-- Adding the modules, API key, and map constant needed for a full screen map app -->
+  <script>
+   
+
+
+   //adding require statements from the arcgis api
+
+
+
+    require([
+      "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+      "esri/layers/FeatureLayer",   
+      "esri/widgets/Editor",
+      "esri/widgets/Legend"
+    ], function (esriConfig,Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Editor, Legend) {
+
+
+
+  //adding the api key, map and map view
+
+
+
+      esriConfig.apiKey = "AAPK56419a6214b44ea4bcb814fec9ef171eVhAxzMstqNZOcF3t1U-exAFnYlWyzkQVYSOD8xzziKyHegsVdDZxaECBoXxisXR6";
+      const map = new Map({
+        basemap: "arcgis-topographic" // Basemap layer
+      });
+
+      const view = new MapView({
+          map: map,
+          center: [20, 50], // Longitude, latitude
+          zoom: 4, // Zoom level
+          container: "viewDiv" // Div element
+        });
+
+
+
+  //adding the constructor for the graphics layer
+
+
+
+      const graphicsLayer = new GraphicsLayer();  
+      map.add(graphicsLayer);
+
+
+
+  //Adding POIs feature layers
+
+
+
+    const FoodRenderer = {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "https://rleyba19.github.io/fmtr/4e24f523182e09376bfe8424d556610a.png.svg.png",
+        width: "18px",
+        height: "18px"
+      }
+    }
+
+    const MuseumRenderer = {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "https://rleyba19.github.io/fmtr/art-history-museum-icon--4.png",
+        width: "18px",
+        height: "18px"
+      }
+    }
+
+    const HOFWO = {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "https://rleyba19.github.io/fmtr/plofworship.png",
+        width: "18px",
+        height: "18px"
+      }
+    }
+
+    const historicalSites = {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "https://rleyba19.github.io/fmtr/historicalsite.png",
+        width: "18px",
+        height: "18px"
+      }
+    }
+
+    const parks = {
+      type: "simple",
+      symbol: {
+        type: "picture-marker",
+        url: "https://rleyba19.github.io/fmtr/3277529.png",
+        width: "18px",
+        height: "18px"
+      }
+    }
+
+
+
+    // Create the layer and set the renderer
+
+
+
+    const FoodLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Restaurants/FeatureServer",
+      renderer: FoodRenderer
+    });
+
+    map.add(FoodLayer);
+
+    const MuseumLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Museums/FeatureServer",
+      renderer: MuseumRenderer
+    });
+
+    map.add(MuseumLayer);
+
+    const HOFWOLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Houses_of_Worship/FeatureServer",
+      renderer: HOFWO
+    });
+
+    map.add(HOFWOLayer);
+
+    const historicalSitesLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Historical_Sites/FeatureServer",
+      renderer: historicalSites
+    });
+
+    map.add(historicalSitesLayer);
+
+    const parksLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Park_or_Natural_Site/FeatureServer",
+      renderer: parks
+    });
+
+    map.add(parksLayer);
+
+
+
+    // Editor
+
+
+
+    const pointInfos = {
+      Layer: FoodLayer,
+    }
+
+    const editor = new Editor({
+      view: view,
+      layerInfos: [pointInfos]
+    });
+
+    view.ui.add(editor, "top-right");
+
+  }); 
+</script>
+
+  <!-- css to make a full screen map -->
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+</head>
+<body>
+
+  <!-- the div to displays the map  -->
+  <div id="viewDiv"></div>
+
+</body>
+</html>
