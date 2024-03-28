@@ -82,6 +82,12 @@
 
     //Food renderer layer
 
+    const foodPopupTemplate = {
+      title: "Restaurant",
+      content: "*"
+    }
+
+
     const FoodRenderer = {
       type: "simple",
       symbol: {
@@ -91,6 +97,7 @@
         height: "24px"
       }
     }
+
 
     const foodLabels = {
       symbol: {
@@ -114,6 +121,13 @@
 
      //Museum renderer layer
 
+    const museumPopupTemplate = {
+      title: "Museum",
+      content: "*"
+    }
+
+
+    
     const MuseumRenderer = {
       type: "simple",
       symbol: {
@@ -146,6 +160,11 @@
   };  
 
      //House of Worship renderer layer
+
+    const HOFWOPopupTemplate = {
+      title: "Religious Site",
+      content: "*"
+    }
 
     const HOFWO = {
       type: "simple",
@@ -181,6 +200,11 @@
 
      //Historical Sites renderer layer
 
+    const historicalsitePopupTemplate = {
+      title: "Historical Site",
+      content: "*"
+    }
+    
     const historicalSites = {
       type: "simple",
       symbol: {
@@ -213,6 +237,12 @@
   };  
 
      //Parks renderer layer
+
+    const parkPopupTemplate = {
+      title: "Park",
+      content: "*"
+    }
+
 
     const parks = {
       type: "simple",
@@ -252,6 +282,7 @@
     const FoodLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Restaurants/FeatureServer",
       outFields: ["*"],
+      popupTemplate: foodPopupTemplate,
       renderer: FoodRenderer,
       labelingInfo: [foodLabels]
     });
@@ -261,6 +292,7 @@
     const MuseumLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Museums/FeatureServer",
       outFields: ["*"],
+      popupTemplate: museumPopupTemplate,
       renderer: MuseumRenderer,
       labelingInfo: [museumLabels]
     });
@@ -270,6 +302,7 @@
     const HOFWOLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Houses_of_Worship/FeatureServer",
       outFields: ["*"],
+      popupTemplate: HOFWOPopupTemplate,
       renderer: HOFWO,
       labelingInfo: [HOFWOLabels]
     });
@@ -279,6 +312,7 @@
     const historicalSitesLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Historical_Sites/FeatureServer",
       outFields: ["*"],
+      popupTemplate: historicalsitePopupTemplate,
       renderer: historicalSites,
       labelingInfo: [historicalSitesLabels]
     });
@@ -288,6 +322,7 @@
     const parksLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Park_or_Natural_Site/FeatureServer",
       outFields: ["*"],
+      popupTemplate: parkPopupTemplate,
       renderer: parks,
       labelingInfo: [parksLabels]
     });
