@@ -32,8 +32,11 @@
       "esri/layers/GraphicsLayer",
       "esri/layers/FeatureLayer",   
       "esri/widgets/Editor",
-      "esri/widgets/Legend"
-    ], function (esriConfig,Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Editor, Legend) {
+      "esri/widgets/Legend",
+      "esri/widgets/Search",
+      "esri/widgets/Locate",
+      "esri/widgets/Expand",
+    ], function (esriConfig,Map, MapView, Graphic, GraphicsLayer, FeatureLayer, Editor, Legend, Search, Locate, Expand) {
 
 
 
@@ -53,7 +56,17 @@
           container: "viewDiv" // Div element
         });
 
+      const LocateBtn = new Locate({
+        view: view
+      });
 
+      view.ui.add(LocateBtn, "top-left");
+
+      const searchWdgt = new Search({
+        view: view
+      });
+
+      view.ui.add(searchWdgt, "bottom-left");
 
   //adding the constructor for the graphics layer
 
@@ -67,57 +80,169 @@
   //Adding POIs feature layers
 
 
+    //Food renderer layer
 
     const FoodRenderer = {
       type: "simple",
       symbol: {
         type: "picture-marker",
-        url: "https://rleyba19.github.io/fmtr/4e24f523182e09376bfe8424d556610a.png.svg.png",
-        width: "18px",
-        height: "18px"
+        url: "4e24f523182e09376bfe8424d556610a.png",
+        width: "24px",
+        height: "24px"
       }
     }
+
+    const foodLabels = {
+      symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+      }
+    },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+      expression: "$feature.RestaurantName"
+    }
+  };  
+
+
+     //Museum renderer layer
 
     const MuseumRenderer = {
       type: "simple",
       symbol: {
         type: "picture-marker",
-        url: "https://rleyba19.github.io/fmtr/art-history-museum-icon--4.png",
-        width: "18px",
-        height: "18px"
+        url: "art-history-museum-icon--4.png",
+        width: "24px",
+        height: "24px"
       }
     }
+
+
+
+    const museumLabels = {
+      symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+      }
+    },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+      expression: "$feature.MuseumName"
+    }
+  };  
+
+     //House of Worship renderer layer
 
     const HOFWO = {
       type: "simple",
       symbol: {
         type: "picture-marker",
-        url: "https://rleyba19.github.io/fmtr/plofworship.png",
-        width: "18px",
-        height: "18px"
+        url: "plofworship.png",
+        width: "24px",
+        height: "24px"
       }
     }
+
+
+    const HOFWOLabels = {
+      symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+      }
+    },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+      expression: "$feature.HouseOfWorshipName"
+    }
+  };  
+
+
+
+     //Historical Sites renderer layer
 
     const historicalSites = {
       type: "simple",
       symbol: {
         type: "picture-marker",
-        url: "https://rleyba19.github.io/fmtr/historicalsite.png",
-        width: "18px",
-        height: "18px"
+        url: "historicalsite.png",
+        width: "24px",
+        height: "24px"
       }
     }
+
+
+
+    const historicalSitesLabels = {
+      symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+      }
+    },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+      expression: "$feature.HistoricalSiteName"
+    }
+  };  
+
+     //Parks renderer layer
 
     const parks = {
       type: "simple",
       symbol: {
         type: "picture-marker",
-        url: "https://rleyba19.github.io/fmtr/3277529.png",
-        width: "18px",
-        height: "18px"
+        url: "3277529.png",
+        width: "24px",
+        height: "24px"
       }
     }
 
+
+    const parksLabels = {
+      symbol: {
+      type: "text",
+      color: "#FFFFFF",
+      haloColor: "#5E8D74",
+      haloSize: "2px",
+      font: {
+        size: "12px",
+        family: "Noto Sans",
+        style: "italic",
+        weight: "normal"
+      }
+    },
+      labelPlacement: "above-center",
+      labelExpressionInfo: {
+      expression: "$feature.ParkName"
+    }
+  };  
 
 
     // Create the layer and set the renderer
@@ -126,38 +251,49 @@
 
     const FoodLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Restaurants/FeatureServer",
-      renderer: FoodRenderer
+      outFields: ["*"],
+      renderer: FoodRenderer,
+      labelingInfo: [foodLabels]
     });
 
     map.add(FoodLayer);
 
     const MuseumLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Museums/FeatureServer",
-      renderer: MuseumRenderer
+      outFields: ["*"],
+      renderer: MuseumRenderer,
+      labelingInfo: [museumLabels]
     });
 
     map.add(MuseumLayer);
 
     const HOFWOLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Houses_of_Worship/FeatureServer",
-      renderer: HOFWO
+      outFields: ["*"],
+      renderer: HOFWO,
+      labelingInfo: [HOFWOLabels]
     });
 
     map.add(HOFWOLayer);
 
     const historicalSitesLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Historical_Sites/FeatureServer",
-      renderer: historicalSites
+      outFields: ["*"],
+      renderer: historicalSites,
+      labelingInfo: [historicalSitesLabels]
     });
 
     map.add(historicalSitesLayer);
 
     const parksLayer = new FeatureLayer({
       url: "https://services.arcgis.com/LBbVDC0hKPAnLRpO/arcgis/rest/services/Park_or_Natural_Site/FeatureServer",
-      renderer: parks
+      outFields: ["*"],
+      renderer: parks,
+      labelingInfo: [parksLabels]
     });
 
     map.add(parksLayer);
+
 
 
 
@@ -171,10 +307,16 @@
 
     const editor = new Editor({
       view: view,
-      layerInfos: [pointInfos]
+      layerInfos: [pointInfos],
+      container: document.createElement("div")
     });
 
-    view.ui.add(editor, "top-right");
+    const bgExpand = new Expand({
+      view: view,
+      content: editor
+    });
+
+    view.ui.add(bgExpand, "top-right");
 
   }); 
 </script>
