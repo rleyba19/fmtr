@@ -51,8 +51,8 @@
 
       const view = new MapView({
           map: map,
-          center: [20, 50], // Longitude, latitude
-          zoom: 4, // Zoom level
+          center: [0, 0], // Longitude, latitude
+          zoom: 2, // Zoom level
           container: "viewDiv" // Div element
         });
 
@@ -84,7 +84,7 @@
 
     const foodPopupTemplate = {
       title: "Restaurant",
-      content: "*"
+      content: "<b>Name: </b>{Name}<br><b>Review: </b>{Review}<br>"
     }
 
 
@@ -123,7 +123,7 @@
 
     const museumPopupTemplate = {
       title: "Museum",
-      content: "*"
+      content: "<b>Name: </b>{Name}<br><b>Review: </b>{Review}<br>"
     }
 
 
@@ -163,7 +163,7 @@
 
     const HOFWOPopupTemplate = {
       title: "Religious Site",
-      content: "*"
+      content: "<b>Name: </b>{Name}<br><b>Review: </b>{Review}<br>"
     }
 
     const HOFWO = {
@@ -202,7 +202,7 @@
 
     const historicalsitePopupTemplate = {
       title: "Historical Site",
-      content: "*"
+      content: "<b>Name: </b>{Name}<br><b>Review: </b>{Review}<br>"
     }
     
     const historicalSites = {
@@ -240,7 +240,7 @@
 
     const parkPopupTemplate = {
       title: "Park",
-      content: "*"
+      content: "<b>Name: </b>{Name}<br><b>Review: </b>{Review}<br>"
     }
 
 
